@@ -1,24 +1,24 @@
 import json
 
-data_memory = {}
+memory = {}
 
 def handler(request):
 
     if request.method == "POST":
-        body = request.json()
-        command = body.get("command")
-        player = body.get("player")
+        data = request.json()
 
-        data_memory["command"] = command
-        data_memory["player"] = player
+        memory["command"] = data.get("command")
+        memory["player"] = data.get("player")
 
         return {
             "statusCode": 200,
+            "headers": {"Content-Type": "application/json"},
             "body": json.dumps({"status": "saved"})
         }
 
     if request.method == "GET":
         return {
             "statusCode": 200,
-            "body": json.dumps(data_memory)
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps(memory)
         }
